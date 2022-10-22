@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:latest'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "postgres" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    healthcheck:
+      test: [ "CMD", "nc", "-z", "localhost", "5672" ]
+      interval: 5s
+      timeout: 15s
+      retries: 1
+
+  store:
+    build:
+      context: .
+      dockerfile: store/Dockerfile
+    ports:
+      - "5050:5050"
+    depends_on:
+      - "postgres"
+
+  wireguard:
+    build:
+      context: .
+      dockerfile: wireguard/Dockerfile
+    ports:
+      - "5010:5010"
+    depends_on:
+      - "rabbitmq"
+      - "store"

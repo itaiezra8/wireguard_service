@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  wireguard:
+    build:
+      context: ../
+      dockerfile: wireguard/Dockerfile
+    ports:
+      - "5010:5010"
+    depends_on:
+      - "rabbitmq"
+
+  rabbitmq:
+    image: 'rabbitmq:3.6-management-alpine'
+    ports:
+      - '5672:5672'
+      - '15672:15672'

@@ -1,0 +1,6 @@
+POSTGRES_USER = 'postgres'
+POSTGRES_PASS = 'postgres'
+SERVER_HOST = '0.0.0.0'
+SERVER_PORT = '5050'
+POSTGRESQL_URI = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASS}@postgres:5432/postgres'
+SERVICE_NAME = 'db'

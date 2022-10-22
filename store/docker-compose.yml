@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  store:
+    build:
+      context: ../
+      dockerfile: store/Dockerfile
+    ports:
+      - "5050:5050"
+    depends_on:
+      - "postgres"
+
+  postgres:
+    image: 'postgres:13.1'
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"

@@ -1,0 +1,6 @@
+SERVER_HOST = '0.0.0.0'
+SERVER_PORT = '5010'
+SERVICE_NAME = 'wireguard'
+DB_URL = 'http://localhost:5050/'
+OVERLAY_NETWORKS = ['192.168.1.0/24', '172.16.0.0/16']
+PRIVATE_KEY_LENGTH = 8
